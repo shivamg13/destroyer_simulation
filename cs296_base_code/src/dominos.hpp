@@ -42,7 +42,7 @@ namespace cs296
     dominos_t();
       
     void keyboard(unsigned char key);
-    //void keyboardUp(unsigned char key);
+    void keyboardUp(unsigned char key);
 	static base_sim_t* create()
 	{
 		return new dominos_t;
@@ -50,7 +50,13 @@ namespace cs296
 	
 	b2Body* m_bodyA;
 	b2Body* m_bodyB;
-	b2PrismaticJoint* m_joint; 
+	b2Body* m_cone;
+	b2Body* m_conebase;
+	b2Body* m_lift;
+	b2Body* m_wall;
+	b2PrismaticJoint* m_joint;
+	b2PrismaticJoint* m_joint_lift;
+	 
 	/*
 	b2Body* m_car;
 	b2Body* m_wheel1;
