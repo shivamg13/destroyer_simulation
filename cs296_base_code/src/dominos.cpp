@@ -63,9 +63,7 @@ namespace cs296
 			shape.Set(b2Vec2(-200.0f, 0.0f), b2Vec2(200.0f, 0.0f));
 			ground->CreateFixture(&fd);
 
-			//float32 hs[10] = {0.25f, 1.0f, 4.0f, 0.0f, 0.0f, -1.0f, -2.0f, -2.0f, -1.25f, 0.0f};
 
-			//float32 x = 20.0f, y1 = 0.0f, dx = 5.0f;
 			
 		}
 		
@@ -110,8 +108,53 @@ namespace cs296
 			  prismaticJointDef.lowerTranslation = 0;
 			  prismaticJointDef.upperTranslation = 10;
 			  prismaticJointDef.enableMotor = true;
-			  prismaticJointDef.maxMotorForce = 1000;
+			  prismaticJointDef.maxMotorForce = 10000;
 			  m_joint = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
+		}
+		
+				{
+			//body and fixture defs - the common parts
+			  b2BodyDef bodyDef;
+			  //bodyDef.type = b2_dynamicBody;
+			  b2FixtureDef fixtureDef;
+			  fixtureDef.density = 1;
+			  
+			  b2BodyDef bodyDef2;
+			  bodyDef2.type = b2_dynamicBody;
+			  
+			  //two boxes
+			  b2PolygonShape squareShapeA;
+			  squareShapeA.SetAsBox(10,0.5);
+			  
+			  b2PolygonShape squareShapeB;
+			  squareShapeB.SetAsBox(0.5,2);
+			  
+			  
+			  //large box a little to the left
+			  bodyDef.position.Set(-20, 12);
+			  fixtureDef.shape = &squareShapeA;
+			  m_bodyA1 = m_world->CreateBody( &bodyDef );
+			  m_bodyA1->CreateFixture( &fixtureDef );
+			  
+			  //smaller box a little to the right
+			  bodyDef2.position.Set( -19, 12);
+			  fixtureDef.shape = &squareShapeB;
+			  m_bodyB1 = m_world->CreateBody( &bodyDef2 );
+			  m_bodyB1->CreateFixture( &fixtureDef );
+			  
+			  b2PrismaticJointDef prismaticJointDef;
+			  prismaticJointDef.bodyA = m_bodyA1;
+			  prismaticJointDef.bodyB = m_bodyB1;
+			  prismaticJointDef.collideConnected = false;
+			  prismaticJointDef.localAxisA.Set(1,0);
+			  prismaticJointDef.localAnchorA.Set( 0,-0.5);//a little outside the bottom right corner
+			  prismaticJointDef.localAnchorB.Set( 0, 2);//bottom left corner
+			  prismaticJointDef.enableLimit = true;
+			  prismaticJointDef.lowerTranslation = 0;
+			  prismaticJointDef.upperTranslation = 10;
+			  prismaticJointDef.enableMotor = true;
+			  prismaticJointDef.maxMotorForce = 10000;
+			  m_joint1 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
 		
 				{
@@ -139,12 +182,14 @@ namespace cs296
 
 				}
 				
+
+			
 			{
 			//body and fixture defs - the common parts
 			  b2BodyDef bodyDef;
 			  bodyDef.type = b2_dynamicBody;
 			  b2FixtureDef fixtureDef;
-			  fixtureDef.density = 1;
+			  fixtureDef.density = 20;
 			  fixtureDef.friction=0.5;
 			  b2Vec2 vertices[5];
 			  vertices[0].Set(-2, -1);
@@ -167,11 +212,30 @@ namespace cs296
 			  //large box a little to the left
 			  bodyDef.position.Set(-13, 2);
 			  fixtureDef.shape = &polygonShape;
-			  m_conebase = m_world->CreateBody( &bodyDef );
-			  m_conebase->CreateFixture( &fixtureDef );
+			  m_cone = m_world->CreateBody( &bodyDef );
+			  m_cone->CreateFixture( &fixtureDef );
 			  
 
 		}
+		
+		    {
+			  b2PolygonShape shape;
+			  shape.SetAsBox(0.5f, 1.0f);
+			
+			  b2FixtureDef fd;
+			  fd.shape = &shape;
+			  fd.density = 5.0f;
+			  fd.friction = 0.1f;
+				
+			  for (int i = 0; i < 4; ++i)
+			{
+			  b2BodyDef bd;
+			  bd.type = b2_dynamicBody;
+			  bd.position.Set(-16.0f + 1.0f * i, 7.0f);
+			  b2Body* body = m_world->CreateBody(&bd);
+			  body->CreateFixture(&fd);
+			}
+			}
 		
 				{
 			//body and fixture defs - the common parts
@@ -215,7 +279,7 @@ namespace cs296
 			  prismaticJointDef.lowerTranslation = 0;
 			  prismaticJointDef.upperTranslation = 20;
 			  prismaticJointDef.enableMotor = true;
-			  prismaticJointDef.maxMotorForce = 400;
+			  prismaticJointDef.maxMotorForce = 10000;
 			  m_joint_lift = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
 		
@@ -235,6 +299,13 @@ namespace cs296
 		case 'd':
 			m_joint->SetMotorSpeed(6.0f);
 			break;
+		case 'q':
+			m_joint1->SetMotorSpeed(-6.0f);
+			break;
+
+		case 'e':
+			m_joint1->SetMotorSpeed(6.0f);
+			break;			
 		case 'w':
 			m_joint_lift->SetMotorSpeed(2.0f);
 			break;
@@ -242,7 +313,9 @@ namespace cs296
 		case 's':
 			m_joint_lift->SetMotorSpeed(-2.0f);
 			break;
-		
+		case ' ':
+			m_joint_lift->SetMotorSpeed(0.0f);
+			break;		
 		}
     }
     
