@@ -106,13 +106,13 @@ namespace cs296
 			  prismaticJointDef.localAnchorB.Set( 0, 2);//bottom left corner
 			  prismaticJointDef.enableLimit = true;
 			  prismaticJointDef.lowerTranslation = 0;
-			  prismaticJointDef.upperTranslation = 10;
+			  prismaticJointDef.upperTranslation = 12;
 			  prismaticJointDef.enableMotor = true;
 			  prismaticJointDef.maxMotorForce = 10000;
 			  m_joint = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
 		
-				{
+		{
 			//body and fixture defs - the common parts
 			  b2BodyDef bodyDef;
 			  //bodyDef.type = b2_dynamicBody;
@@ -151,11 +151,12 @@ namespace cs296
 			  prismaticJointDef.localAnchorB.Set( 0, 2);//bottom left corner
 			  prismaticJointDef.enableLimit = true;
 			  prismaticJointDef.lowerTranslation = 0;
-			  prismaticJointDef.upperTranslation = 10;
+			  prismaticJointDef.upperTranslation = 12;
 			  prismaticJointDef.enableMotor = true;
 			  prismaticJointDef.maxMotorForce = 10000;
 			  m_joint1 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
+		
 		
 				{
 			//body and fixture defs - the common parts
@@ -232,9 +233,25 @@ namespace cs296
 			  b2BodyDef bd;
 			  bd.type = b2_dynamicBody;
 			  bd.position.Set(-16.0f + 1.0f * i, 7.0f);
-			  b2Body* body = m_world->CreateBody(&bd);
-			  body->CreateFixture(&fd);
+			  domin[i] = m_world->CreateBody(&bd);
+			  domin[i]->CreateFixture(&fd);
 			}
+			}
+			
+			{
+			  b2PolygonShape shape;
+			  shape.SetAsBox(0.5f, 4.0f);
+			
+			  b2FixtureDef fd;
+			  fd.shape = &shape;
+			  //fd.density = 5.0f;
+			  //fd.friction = 0.1f;
+				
+			  b2BodyDef bd;
+			  //bd.type = b2_dynamicBody;
+			  bd.position.Set(-10, 16.0f);
+			  m_wall2 = m_world->CreateBody(&bd);
+			  m_wall2->CreateFixture(&fd);
 			}
 		
 				{
@@ -283,6 +300,100 @@ namespace cs296
 			  m_joint_lift = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
 		
+		{
+			//body and fixture defs - the common parts
+			  b2BodyDef bodyDef;
+			  //bodyDef.type = b2_dynamicBody;
+			  b2FixtureDef fixtureDef;
+			  fixtureDef.density = 1;
+			  
+			  b2BodyDef bodyDef2;
+			  bodyDef2.type = b2_dynamicBody;
+			  b2FixtureDef fixtureDef2;
+			  fixtureDef2.density = 1;
+			  //two boxes
+			  b2PolygonShape squareShapeA;
+			  squareShapeA.SetAsBox(0.5,15);
+			  
+			  b2PolygonShape squareShapeB;
+			  squareShapeB.SetAsBox(11.6,0.1);
+			  
+			  
+			  //large box a little to the left
+			  bodyDef.position.Set(-30.5, 15);
+			  fixtureDef2.shape = &squareShapeA;
+			  m_lift3 = m_world->CreateBody( &bodyDef );
+			  m_lift3->CreateFixture( &fixtureDef2 );
+			  
+			  //smaller box a little to the right
+			  bodyDef2.position.Set( -30, 20);
+			  fixtureDef.shape = &squareShapeB;
+			  m_wall3 = m_world->CreateBody( &bodyDef2 );
+			  m_wall3->CreateFixture( &fixtureDef );
+			  
+			  b2PrismaticJointDef prismaticJointDef;
+			  prismaticJointDef.bodyA = m_lift3;
+			  prismaticJointDef.bodyB = m_wall3;
+			  prismaticJointDef.collideConnected = false;
+			  prismaticJointDef.localAxisA.Set(0,1);
+			  prismaticJointDef.localAnchorA.Set( -0.5,-14.5);//a little outside the bottom right corner
+			  prismaticJointDef.localAnchorB.Set( -10, 0);//bottom left corner
+			  prismaticJointDef.enableLimit = true;
+			  prismaticJointDef.lowerTranslation = 20;
+			  prismaticJointDef.upperTranslation = 30;
+			  prismaticJointDef.enableMotor = true;
+			  prismaticJointDef.maxMotorForce = 10000;
+			  m_joint_lift3 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
+		}
+		
+				{
+			//body and fixture defs - the common parts
+			  //~ b2BodyDef bodyDef;
+			  //~ //bodyDef.type = b2_dynamicBody;
+			   b2FixtureDef fixtureDef;
+			   fixtureDef.density = 1;
+			  //~ 
+			  b2BodyDef bodyDef2;
+			  bodyDef2.type = b2_dynamicBody;
+			  
+			  //two boxes
+			  //~ b2PolygonShape squareShapeA;
+			  //~ squareShapeA.SetAsBox(10,0.5);
+			  	
+			   
+			  b2PolygonShape squareShapeB;
+			  squareShapeB.SetAsBox(3,1);
+			  
+			  
+			  //large box a little to the left
+			  /*bodyDef.position.Set(20, 20);
+			  fixtureDef.shape = &squareShapeA;
+			  m_bodyA2 = m_world->CreateBody( &bodyDef );
+			  m_bodyA2->CreateFixture( &fixtureDef );*/
+			  
+			  //smaller box a little to the right
+			  bodyDef2.position.Set( 6, 21);
+			  fixtureDef.shape = &squareShapeB;
+			  m_bodyB2 = m_world->CreateBody( &bodyDef2 );
+			  m_bodyB2->CreateFixture( &fixtureDef );
+			  
+			  b2PrismaticJointDef prismaticJointDef;
+			  prismaticJointDef.bodyA = m_lift;
+			  prismaticJointDef.bodyB = m_bodyB2;
+			  prismaticJointDef.collideConnected = false;
+			  prismaticJointDef.localAxisA.Set(1,0);
+			  prismaticJointDef.localAnchorA.Set( 0,14);//a little outside the bottom right corner
+			  prismaticJointDef.localAnchorB.Set( 0, 2);//bottom left corner
+			  prismaticJointDef.enableLimit = true;
+			  prismaticJointDef.lowerTranslation = -15;
+			  prismaticJointDef.upperTranslation = 3;
+			  prismaticJointDef.enableMotor = true;
+			  prismaticJointDef.maxMotorForce = 100000;
+			  m_joint2 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
+		}
+		
+		
+		
 		
 		
 	}
@@ -293,11 +404,11 @@ namespace cs296
         switch (key)
 		{
 		case 'a':
-			m_joint->SetMotorSpeed(-6.0f);
+			m_joint->SetMotorSpeed(-4.0f);
 			break;
 
 		case 'd':
-			m_joint->SetMotorSpeed(6.0f);
+			m_joint->SetMotorSpeed(4.0f);
 			break;
 		case 'q':
 			m_joint1->SetMotorSpeed(-6.0f);
@@ -315,7 +426,20 @@ namespace cs296
 			break;
 		case ' ':
 			m_joint_lift->SetMotorSpeed(0.0f);
-			break;		
+			break;
+		case 'i':
+			m_joint_lift3->SetMotorSpeed(2.0f);
+			break;
+		case 'k':
+			m_joint_lift3->SetMotorSpeed(-2.0f);
+			break;
+		case 'j':
+			m_joint2->SetMotorSpeed(-2.0f);
+			break;
+		case 'l':
+		m_joint2->SetMotorSpeed(2.0f);
+		break;					
+					
 		}
     }
     
