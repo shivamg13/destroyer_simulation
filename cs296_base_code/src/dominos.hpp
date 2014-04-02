@@ -53,7 +53,8 @@ namespace cs296
 	b2Body* m_bodyA1;
 	b2Body* m_bodyB1;
 	b2Body* m_bodyA2;
-	b2Body* m_bodyB2;		
+	b2Body* m_bodyB2;
+	b2Body* m_bodyB3;		
 	b2Body* m_cone;
 	b2Body* m_conebase;
 	b2Body* m_lift;
@@ -65,6 +66,7 @@ namespace cs296
 	b2PrismaticJoint* m_joint;
 	b2PrismaticJoint* m_joint1;
 	b2PrismaticJoint* m_joint2;
+	b2PrismaticJoint* m_joint3;
 	b2PrismaticJoint* m_joint_lift3;		
 	b2PrismaticJoint* m_joint_lift;
 	 
