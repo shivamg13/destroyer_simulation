@@ -42,7 +42,7 @@ namespace cs296
     dominos_t();
       
     void keyboard(unsigned char key);
-    void keyboardUp(unsigned char key);
+   // void keyboardUp(unsigned char key);
 	static base_sim_t* create()
 	{
 		return new dominos_t;
@@ -67,12 +67,14 @@ namespace cs296
 	b2Body* gunanch;
 	b2Body* gunanch1;
 	b2Body* guntop;
+	b2Body* gungate;
 	b2PrismaticJoint* m_joint;
 	b2PrismaticJoint* m_joint1;
 	b2PrismaticJoint* m_joint2;
 	b2PrismaticJoint* m_joint3;
 	b2PrismaticJoint* m_joint_lift3;		
 	b2PrismaticJoint* m_joint_lift;
+	b2PrismaticJoint* m_joint_gate;
 	b2RevoluteJoint* m_base;
 	b2RevoluteJoint* m_top;
 	 

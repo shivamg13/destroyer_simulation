@@ -21,6 +21,8 @@
  * Department of Computer Science and Engineering, IIT Bombay
  * Instructor: Parag Chaudhuri
  */
+ 
+ 
 
 #include <math.h> 
 #include "cs296_base.hpp"
@@ -44,9 +46,7 @@ namespace cs296
    */ 
   dominos_t::dominos_t()
     {		
-		//m_hz = 10.0f;
-		//m_zeta = 0.7f;
-		//m_speed = 200.0f;
+
 
 		b2Body* ground = NULL;
 		{
@@ -68,24 +68,19 @@ namespace cs296
 		}
 		
 		{
-			//body and fixture defs - the common parts
 			  b2BodyDef bodyDef;
-			  //bodyDef.type = b2_dynamicBody;
+		
 			  b2FixtureDef fixtureDef;
 			  fixtureDef.density = 1;
 			  
 			  b2BodyDef bodyDef2;
 			  bodyDef2.type = b2_dynamicBody;
-			  
-			  //two boxes
 			  b2PolygonShape squareShapeA;
 			  squareShapeA.SetAsBox(10.3,0.5);
 			  
 			  b2PolygonShape squareShapeB;
 			  squareShapeB.SetAsBox(0.5,2);
 			  
-			  
-			  //large box a little to the left
 			  bodyDef.position.Set(-20, 6);
 			  fixtureDef.shape = &squareShapeA;
 			  m_bodyA = m_world->CreateBody( &bodyDef );
@@ -440,13 +435,13 @@ namespace cs296
 			  
 			  
 			 
-			  bodyDef.position.Set(1, 29.8);//dynamic base
+			  bodyDef.position.Set(1, 29.9);//dynamic base
 			  fixtureDef2.shape = &squareShapeB;
 			  gunbase = m_world->CreateBody( &bodyDef );
 			  gunbase->CreateFixture( &fixtureDef2 );
 			  
 			
-			  bodyDef2.position.Set( 0, 31.8);
+			  bodyDef2.position.Set( 0, 31.9);
 			  fixtureDef.shape = &squareShapeA;
 			  gunanch = m_world->CreateBody( &bodyDef2 );
 			  //gunanch->CreateFixture( &fixtureDef );
@@ -474,29 +469,17 @@ namespace cs296
 			  fixtureDef.density = 1000;
 			  
 			  
-			  //b2BodyDef bodyDef2;
-			  //bodyDef2.type = b2_dynamicBody;
-			  //b2FixtureDef fixtureDef2;
-			  //fixtureDef2.density = 1;
-			  
-			  //b2PolygonShape squareShapeA;
-			  //squareShapeA.SetAsBox(1,1);
 			  
 			  b2PolygonShape squareShapeB;
 			  squareShapeB.SetAsBox(10,0.1);
 			  
 			  
 			 
-			  bodyDef.position.Set(1, 33.8);//dynamic base
+			  bodyDef.position.Set(1, 33.9);//dynamic base
 			  fixtureDef.shape = &squareShapeB;
 			  guntop = m_world->CreateBody( &bodyDef );
 			  guntop->CreateFixture( &fixtureDef );
 			  
-			
-			  //bodyDef2.position.Set( 0, 37);
-			  //fixtureDef.shape = &squareShapeB;
-			  //gunanch1 = m_world->CreateBody( &bodyDef2 );
-			  //gunanch1->CreateFixture( &fixtureDef );
 			  
 			  b2RevoluteJointDef revoluteJointDef;
 			  revoluteJointDef.bodyA = gunanch;
@@ -580,30 +563,25 @@ namespace cs296
         //apply immediate force upwards
        //const b2Vec2 im=(0,50);
        // m_cone->ApplyLinearImpulse( b2Vec2(0.9396926*50,0.342020*50), m_cone->GetWorldCenter(),true );
-       m_cone->ApplyLinearImpulse( b2Vec2(cos(20 * DEGTORAD)*50,sin(20 * DEGTORAD)*50), m_cone->GetWorldCenter(),true );
+       m_cone->ApplyLinearImpulse( b2Vec2(cos(20 * DEGTORAD)*5000,sin(20 * DEGTORAD)*5000), m_cone->GetWorldCenter(),true );
         for(int i=0;i<4;i++)
 		{
-				domin[i]->ApplyLinearImpulse( b2Vec2(cos(20 * DEGTORAD)*50,sin(20 * DEGTORAD)*50), domin[i]->GetWorldCenter(),true );
+				domin[i]->ApplyLinearImpulse( b2Vec2(cos(20 * DEGTORAD)*5000,sin(20 * DEGTORAD)*5000), domin[i]->GetWorldCenter(),true );
 		}
-          break;					
+		
+		
+			
+		
+          break;
+          
+		//~ case ']':
+		//~ m_world->ShiftOrigin(m_cone->GetWorldCenter());
+		//~ break;          					
 					//~ 
 		}
     }
     
-    void dominos_t::keyboardUp(unsigned char key)
-    {
-        switch (key)
-		{
-		case 'w':
-			m_joint_lift->SetMotorSpeed(0.0f);
-			break;
-
-		case 's':
-			m_joint_lift->SetMotorSpeed(0.0f);
-			break;
-		
-		}
-    }
+    
 
 
   sim_t *sim = new sim_t("Dominos", dominos_t::create);
