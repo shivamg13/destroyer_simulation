@@ -63,12 +63,18 @@ namespace cs296
 	b2Body* m_lift3;
 	b2Body* m_wall3;
 	b2Body* domin[4];
+	b2Body* gunbase;
+	b2Body* gunanch;
+	b2Body* gunanch1;
+	b2Body* guntop;
 	b2PrismaticJoint* m_joint;
 	b2PrismaticJoint* m_joint1;
 	b2PrismaticJoint* m_joint2;
 	b2PrismaticJoint* m_joint3;
 	b2PrismaticJoint* m_joint_lift3;		
 	b2PrismaticJoint* m_joint_lift;
+	b2RevoluteJoint* m_base;
+	b2RevoluteJoint* m_top;
 	 
 	/*
 	b2Body* m_car;

@@ -22,7 +22,7 @@
  * Instructor: Parag Chaudhuri
  */
 
-
+#include <math.h> 
 #include "cs296_base.hpp"
 #include "render.hpp"
 
@@ -190,7 +190,7 @@ namespace cs296
 			  b2BodyDef bodyDef;
 			  bodyDef.type = b2_dynamicBody;
 			  b2FixtureDef fixtureDef;
-			  fixtureDef.density = 5;
+			  fixtureDef.density = 2;
 			  fixtureDef.friction=0.5;
 			  b2Vec2 vertices[5];
 			  vertices[0].Set(-2, -1);
@@ -225,7 +225,7 @@ namespace cs296
 			
 			  b2FixtureDef fd;
 			  fd.shape = &shape;
-			  fd.density = 5.0f;
+			  fd.density = 4.0f;
 			  fd.friction = 0.1f;
 				
 			  for (int i = 0; i < 4; ++i)
@@ -347,7 +347,7 @@ namespace cs296
 			  //~ b2BodyDef bodyDef;
 			  //~ //bodyDef.type = b2_dynamicBody;
 			   b2FixtureDef fixtureDef;
-			   fixtureDef.density = 1;
+			   fixtureDef.density = 3;
 			  //~ 
 			  b2BodyDef bodyDef2;
 			  bodyDef2.type = b2_dynamicBody;
@@ -386,6 +386,7 @@ namespace cs296
 			  //~ //bodyDef.type = b2_dynamicBody;
 			   b2FixtureDef fixtureDef;
 			   fixtureDef.density = 1;
+			   //fixtureDef.friction = 100;
 			  //~ 
 			  b2BodyDef bodyDef2;
 			  bodyDef2.type = b2_dynamicBody;
@@ -412,12 +413,105 @@ namespace cs296
 			  prismaticJointDef.localAnchorB.Set( -2, -0.5);//bottom left corner
 			  prismaticJointDef.enableLimit = true;
 			  prismaticJointDef.lowerTranslation = -5;
-			  prismaticJointDef.upperTranslation = 15;
+			  prismaticJointDef.upperTranslation = 20;
 			  prismaticJointDef.enableMotor = true;
 			  prismaticJointDef.maxMotorForce = 100000;
 			  m_joint3 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
 		
+		{
+			//body and fixture defs - the common parts
+			  b2BodyDef bodyDef;
+			  bodyDef.type = b2_dynamicBody;
+			  b2FixtureDef fixtureDef;
+			  fixtureDef.density = 1;
+			  
+			  b2BodyDef bodyDef2;
+			  //bodyDef2.type = b2_dynamicBody;
+			  b2FixtureDef fixtureDef2;
+			  fixtureDef2.density = 1000;
+			  fixtureDef2.friction = 2;
+			  //two boxes
+			  b2PolygonShape squareShapeA;
+			  squareShapeA.SetAsBox(1,1);
+			  
+			  b2PolygonShape squareShapeB;
+			  squareShapeB.SetAsBox(10,0.1);
+			  
+			  
+			 
+			  bodyDef.position.Set(1, 29.8);//dynamic base
+			  fixtureDef2.shape = &squareShapeB;
+			  gunbase = m_world->CreateBody( &bodyDef );
+			  gunbase->CreateFixture( &fixtureDef2 );
+			  
+			
+			  bodyDef2.position.Set( 0, 31.8);
+			  fixtureDef.shape = &squareShapeA;
+			  gunanch = m_world->CreateBody( &bodyDef2 );
+			  //gunanch->CreateFixture( &fixtureDef );
+			  
+			  b2RevoluteJointDef revoluteJointDef;
+			  revoluteJointDef.bodyA = gunanch;
+			  revoluteJointDef.bodyB = gunbase;
+			  revoluteJointDef.collideConnected = false;
+			  revoluteJointDef.localAnchorA.Set( 0,0);//a little outside the bottom right corner
+			  revoluteJointDef.localAnchorB.Set( -1, 2);//bottom left corner
+			  revoluteJointDef.referenceAngle = 0;
+			  revoluteJointDef.enableLimit = true;
+			  revoluteJointDef.lowerAngle = 0 * DEGTORAD;
+			  revoluteJointDef.upperAngle =  20 * DEGTORAD;
+			  revoluteJointDef.enableMotor = true;
+			  revoluteJointDef.maxMotorTorque = 200000;
+			  m_base = (b2RevoluteJoint*)m_world->CreateJoint( &revoluteJointDef );
+		}
+		
+		{
+			//body and fixture defs - the common parts
+			  b2BodyDef bodyDef;
+			  bodyDef.type = b2_dynamicBody;
+			  b2FixtureDef fixtureDef;
+			  fixtureDef.density = 1000;
+			  
+			  
+			  //b2BodyDef bodyDef2;
+			  //bodyDef2.type = b2_dynamicBody;
+			  //b2FixtureDef fixtureDef2;
+			  //fixtureDef2.density = 1;
+			  
+			  //b2PolygonShape squareShapeA;
+			  //squareShapeA.SetAsBox(1,1);
+			  
+			  b2PolygonShape squareShapeB;
+			  squareShapeB.SetAsBox(10,0.1);
+			  
+			  
+			 
+			  bodyDef.position.Set(1, 33.8);//dynamic base
+			  fixtureDef.shape = &squareShapeB;
+			  guntop = m_world->CreateBody( &bodyDef );
+			  guntop->CreateFixture( &fixtureDef );
+			  
+			
+			  //bodyDef2.position.Set( 0, 37);
+			  //fixtureDef.shape = &squareShapeB;
+			  //gunanch1 = m_world->CreateBody( &bodyDef2 );
+			  //gunanch1->CreateFixture( &fixtureDef );
+			  
+			  b2RevoluteJointDef revoluteJointDef;
+			  revoluteJointDef.bodyA = gunanch;
+			  revoluteJointDef.bodyB = guntop;
+			  revoluteJointDef.collideConnected = false;
+			  revoluteJointDef.localAnchorA.Set( 0,0);//a little outside the bottom right corner
+			  revoluteJointDef.localAnchorB.Set( -1, -2);//bottom left corner
+			  revoluteJointDef.referenceAngle = 0;
+			  revoluteJointDef.enableLimit = true;
+			  revoluteJointDef.lowerAngle = 0 * DEGTORAD;
+			  revoluteJointDef.upperAngle =  20 * DEGTORAD;
+			  revoluteJointDef.enableMotor = true;
+			  revoluteJointDef.maxMotorTorque = 200000;
+			  m_top = (b2RevoluteJoint*)m_world->CreateJoint( &revoluteJointDef );
+		}
 		
 		
 		
@@ -450,7 +544,7 @@ namespace cs296
 		case 's':
 			m_joint_lift->SetMotorSpeed(-2.0f);
 			break;
-		case ' ':
+		case '1':
 			m_joint_lift->SetMotorSpeed(0.0f);
 			break;
 		case 'i':
@@ -471,8 +565,28 @@ namespace cs296
 		break;
 		case 'u':
 		m_joint3->SetMotorSpeed(-2.0f);
-		break;				
-					
+		break;
+		
+		case '=':
+		m_base->SetMotorSpeed(0.5f);
+		m_top->SetMotorSpeed(0.5f);
+		break;
+		case '-':
+		m_base->SetMotorSpeed(-0.5f);
+		m_top->SetMotorSpeed(-0.5f);
+		break;
+		
+		 case ' ':
+        //apply immediate force upwards
+       //const b2Vec2 im=(0,50);
+       // m_cone->ApplyLinearImpulse( b2Vec2(0.9396926*50,0.342020*50), m_cone->GetWorldCenter(),true );
+       m_cone->ApplyLinearImpulse( b2Vec2(cos(20 * DEGTORAD)*50,sin(20 * DEGTORAD)*50), m_cone->GetWorldCenter(),true );
+        for(int i=0;i<4;i++)
+		{
+				domin[i]->ApplyLinearImpulse( b2Vec2(cos(20 * DEGTORAD)*50,sin(20 * DEGTORAD)*50), domin[i]->GetWorldCenter(),true );
+		}
+          break;					
+					//~ 
 		}
     }
     
