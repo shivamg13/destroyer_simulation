@@ -66,7 +66,7 @@ EXTLIB=$(EXTERNAL_ROOT)/lib
 EXTSRC=$(EXTERNAL_ROOT)/src
 SHARED_LIB=FALSE
 
-.PHONY: all setup clean distclean 
+.PHONY: all setup clean distclean doc
 
 all: setup exe
 
@@ -139,3 +139,9 @@ distclean:
 	@$(RM) -rf ./external/lib/*
 	@$(RM) -rf ./external/src/Box2D	
 	@$(ECHO) "Done"	
+
+doc:
+	@$(ECHO) -n "Generating Doxygen Documentation ...  "
+	@$(RM) -rf doc/html
+	@$(DOXYGEN) $(DOCDIR)/Doxyfile 2 > /dev/null
+	@$(ECHO) "Done"

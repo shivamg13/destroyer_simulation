@@ -47,27 +47,43 @@ namespace cs296
 	{
 		return new dominos_t;
 	}
-	
+	private:
+	///This is the base on which the the rectangles that form the hind section of missile rests.
 	b2Body* m_bodyA;
+	///This body is used to drag the cone from base to lift
+	/**
+	 * There exist a prismatic joint between m_bodyA and m_bodyB.
+	 */ 
 	b2Body* m_bodyB;
+	///This is a static body on which m_bodyA1 slides using prismatic joint
 	b2Body* m_bodyA1;
+	///This body is used to drag the hind section of missile to lift
+	///There exist a prismatic joint between m_bodyA1 and m_bodyB1
 	b2Body* m_bodyB1;
-	b2Body* m_bodyA2;
 	b2Body* m_bodyB2;
-	b2Body* m_bodyB3;		
+	b2Body* m_bodyB3;
+	///This is the conical part of missile		
 	b2Body* m_cone;
+	///This is the base on which the conical part of missile rests initially
 	b2Body* m_conebase;
+	///This is the lift which carries the missile from base to middle
 	b2Body* m_lift;
+	///This is a static body along which M_lift slides using prismatic joint
 	b2Body* m_wall;
+	///This is just a static wall
 	b2Body* m_wall2;
+	///This is the lift that carries missile from middle to top (to the launcher)
 	b2Body* m_lift3;
+	///This is a static body along which M_lift3 slides using prismatic joint
 	b2Body* m_wall3;
+	///This is an array of rectangles that form the hind section of missiles
 	b2Body* domin[4];
+	///This is the body that makes the base of missile launcher
 	b2Body* gunbase;
+	///This is an invisible body about which missile launcher rotates
 	b2Body* gunanch;
-	b2Body* gunanch1;
+	///This forms the top of missile launcher
 	b2Body* guntop;
-	b2Body* gungate;
 	b2PrismaticJoint* m_joint;
 	b2PrismaticJoint* m_joint1;
 	b2PrismaticJoint* m_joint2;
@@ -78,27 +94,7 @@ namespace cs296
 	b2RevoluteJoint* m_base;
 	b2RevoluteJoint* m_top;
 	 
-	/*
-	b2Body* m_car;
-	b2Body* m_wheel1;
-	b2Body* m_wheel2;	
-	b2Body* m_backarm1;
-	b2Body* m_backarm2;
-	b2Body* m_frontarm1;
-	b2Body* m_bpick1;
-	b2Body* m_bpick2;
-	b2Body* test_box;
-	b2Body* test_ball;
-	float32 m_hz;
-	float32 m_zeta;
-	float32 m_speed;
-	b2WheelJoint* m_spring1;
-	b2WheelJoint* m_spring2;
-	b2RevoluteJoint* m_mjoint1;
-	b2RevoluteJoint* m_mjoint2;
-	b2RevoluteJoint* m_mjoint3;
-	b2RevoluteJoint* m_mjoint4;
-	b2RevoluteJoint* m_mjoint5;*/
+
   };
 }
   
