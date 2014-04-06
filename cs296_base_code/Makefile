@@ -130,7 +130,7 @@ exelib: $(DYNLIBTARGET) $(STATLIBTARGET)
 clean:
 	@$(ECHO) -n "Cleaning up..."
 	@$(RM) -rf $(OBJDIR) $(LIBDIR) $(BINDIR) *~ $(DEPS) $(SRCDIR)/*~
-	@$(RM) -rf ./doc/html
+	@$(RM) -rf $(PROJECT_ROOT)/doc/html $(PROJECT_ROOT)/doc/*.pdf $(PROJECT_ROOT)/doc/*.dvi $(PROJECT_ROOT)/doc/*.aux $(PROJECT_ROOT)/doc/*.log $(PROJECT_ROOT)/doc/*.bbl $(PROJECT_ROOT)/doc/*.blg ./*.log
 	@$(ECHO) "Done"
 
 distclean: clean
@@ -140,6 +140,15 @@ distclean: clean
 	@$(RM) -rf ./external/lib/*
 	@$(RM) -rf ./external/src/Box2D	
 	@$(ECHO) "Done"	
+
+report:
+	@$(ECHO) -n "Generating Report ...  "
+	@cd ./doc; \
+	pdflatex report.tex; \
+	bibtex report; \
+	pdflatex report.tex; \
+	pdflatex report.tex; 
+
 
 doc:
 	@$(ECHO) -n "Generating Doxygen Documentation ...  "
