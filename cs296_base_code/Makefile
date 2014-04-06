@@ -130,9 +130,10 @@ exelib: $(DYNLIBTARGET) $(STATLIBTARGET)
 clean:
 	@$(ECHO) -n "Cleaning up..."
 	@$(RM) -rf $(OBJDIR) $(LIBDIR) $(BINDIR) *~ $(DEPS) $(SRCDIR)/*~
+	@$(RM) -rf ./doc/html
 	@$(ECHO) "Done"
 
-distclean:
+distclean: clean
 	@$(ECHO) -n "Cleaning up..."
 	@$(RM) -rf $(OBJDIR) $(LIBDIR) $(BINDIR) *~ $(DEPS) $(SRCDIR)/*~
 	@$(RM) -rf ./external/include/*

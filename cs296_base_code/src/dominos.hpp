@@ -34,15 +34,13 @@
 
 namespace cs296
 {
-  //! This is the class that sets up the Box2D simulation world
-  //! Notice the public inheritance - why do we inherit the base_sim_t class?
+  
   class dominos_t : public base_sim_t
   {
   public:
     dominos_t();
       
     void keyboard(unsigned char key);
-   // void keyboardUp(unsigned char key);
 	static base_sim_t* create()
 	{
 		return new dominos_t;
@@ -60,7 +58,9 @@ namespace cs296
 	///This body is used to drag the hind section of missile to lift
 	///There exist a prismatic joint between m_bodyA1 and m_bodyB1
 	b2Body* m_bodyB1;
+	///This body is used to drag missile from one lift to another
 	b2Body* m_bodyB2;
+	///This body is used to drag missile from lift to missile launcher
 	b2Body* m_bodyB3;
 	///This is the conical part of missile		
 	b2Body* m_cone;
@@ -84,14 +84,21 @@ namespace cs296
 	b2Body* gunanch;
 	///This forms the top of missile launcher
 	b2Body* guntop;
+	///This is the prismatic joint between m_bodyA and m_bodyB
 	b2PrismaticJoint* m_joint;
+	///This is the prismatic joint between m_bodyA1 and m_bodyB1
 	b2PrismaticJoint* m_joint1;
+	///This is the prismatic joint between m_lift and m_bodyB2
 	b2PrismaticJoint* m_joint2;
+	///This is the prismatic joint between m_lift3 and m_bodyB3
 	b2PrismaticJoint* m_joint3;
+	///This is the prismatic joint between m_lift3 and m_wall3
 	b2PrismaticJoint* m_joint_lift3;		
+	///This is the prismatic joint between m_lift and m_wall
 	b2PrismaticJoint* m_joint_lift;
-	b2PrismaticJoint* m_joint_gate;
+	///This is the revolute joint between gunbase and gunanch
 	b2RevoluteJoint* m_base;
+	///This is the revolute joint between guntop and gunanch
 	b2RevoluteJoint* m_top;
 	 
 

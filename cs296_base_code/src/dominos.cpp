@@ -42,7 +42,6 @@ using namespace std;
 namespace cs296
 {
   /**  The is the constructor 
-   * This is the documentation block for the constructor.
    */ 
   dominos_t::dominos_t()
     {		
@@ -63,10 +62,8 @@ namespace cs296
 			shape.Set(b2Vec2(-200.0f, 0.0f), b2Vec2(2000.0f, 0.0f));
 			ground->CreateFixture(&fd);
 
-
-			
 		}
-		
+		///1.We are making a prismatic joint between m_bodyA and m_bodyB
 		{
 			  b2BodyDef bodyDef;
 		
@@ -95,17 +92,22 @@ namespace cs296
 			  prismaticJointDef.bodyA = m_bodyA;
 			  prismaticJointDef.bodyB = m_bodyB;
 			  prismaticJointDef.collideConnected = false;
+			  ///Here we are setting the relative motion to be along the direction (1,0) i.e. along x-axis
 			  prismaticJointDef.localAxisA.Set(1,0);
+			  ///Here we are setting the local anchor of 1st body to be (0,-0.5) relative to its center of mass
 			  prismaticJointDef.localAnchorA.Set( 0,-0.5);
+			  ///Here we are setting the local anchor of 2nd body to be (0,2) relative to its center of mass
 			  prismaticJointDef.localAnchorB.Set( 0, 2);
 			  prismaticJointDef.enableLimit = true;
+			  ///We have defined the lowest value of separation between the two anchor points to be 0 and higher limit is 10.3
 			  prismaticJointDef.lowerTranslation = 0;
 			  prismaticJointDef.upperTranslation = 10.3;
 			  prismaticJointDef.enableMotor = true;
+			  ///We have set the maximum Motor Force to be 10000. For heavy bodies, high motor force is required
 			  prismaticJointDef.maxMotorForce = 10000;
 			  m_joint = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
-		
+		///2.We are making a prismatic joint between m_bodyA1 and m_bodyB1
 		{
 			  b2BodyDef bodyDef;	  
 			  b2FixtureDef fixtureDef;
@@ -148,25 +150,22 @@ namespace cs296
 			  m_joint1 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
 		}
 		
-		
-				{
-			
-			  b2BodyDef bodyDef;
-			
-			  b2FixtureDef fixtureDef;
-			  fixtureDef.density = 1;
-			  b2PolygonShape squareShapeA;
-			  squareShapeA.SetAsBox(10.3,0.5);
-			  bodyDef.position.Set(-20, 0.5);
-			  fixtureDef.shape = &squareShapeA;
-			  m_conebase = m_world->CreateBody( &bodyDef );
-			  m_conebase->CreateFixture( &fixtureDef );
-			  
-
-				}
+	///3.We make a box shape body for the base of cone
+		{
+	  b2BodyDef bodyDef;
+	
+	  b2FixtureDef fixtureDef;
+	  fixtureDef.density = 1;
+	  b2PolygonShape squareShapeA;
+	  squareShapeA.SetAsBox(10.3,0.5);
+	  bodyDef.position.Set(-20, 0.5);
+	  fixtureDef.shape = &squareShapeA;
+	  m_conebase = m_world->CreateBody( &bodyDef );
+	  m_conebase->CreateFixture( &fixtureDef );
+		}
 				
 
-			
+		///4.We make the conical part of missile using polygonShape with 5 vertices	
 			{
 			  b2BodyDef bodyDef;
 			  bodyDef.type = b2_dynamicBody;
@@ -190,8 +189,8 @@ namespace cs296
 			  m_cone->CreateFixture( &fixtureDef );
 			  
 
-		}
-		
+			}
+		///5.We make the rectangular part of hind section of missile using box shape	
 		    {
 			  b2PolygonShape shape;
 			  shape.SetAsBox(0.5f, 1.0f);
@@ -209,7 +208,7 @@ namespace cs296
 			  domin[i] = m_world->CreateBody(&bd);
 			  domin[i]->CreateFixture(&fd);
 			}
-			}
+			}	
 			
 			{
 			  b2PolygonShape shape;
@@ -222,8 +221,8 @@ namespace cs296
 			  m_wall2 = m_world->CreateBody(&bd);
 			  m_wall2->CreateFixture(&fd);
 			}
-		
-				{
+		///6.We make a prismatic joint between m_lift and m_wall
+			{
 			  b2BodyDef bodyDef;
 			  b2FixtureDef fixtureDef;
 			  fixtureDef.density = 1;
@@ -259,9 +258,9 @@ namespace cs296
 			  prismaticJointDef.enableMotor = true;
 			  prismaticJointDef.maxMotorForce = 10000;
 			  m_joint_lift = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
-		}
-		
-		{
+			}
+		///7.We make a prismatic joint between m_lift3 and m_wall3
+			{
 			  b2BodyDef bodyDef;
 			  b2FixtureDef fixtureDef;
 			  fixtureDef.density = 1;
@@ -302,8 +301,8 @@ namespace cs296
 			  prismaticJointDef.enableMotor = true;
 			  prismaticJointDef.maxMotorForce = 10000;
 			  m_joint_lift3 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
-		}
-		
+			}
+		///8.We make a prismatic joint between m_lift and m_BodyB2
 			{
 			   b2FixtureDef fixtureDef;
 			   fixtureDef.density = 3;
@@ -331,9 +330,9 @@ namespace cs296
 			  prismaticJointDef.enableMotor = true;
 			  prismaticJointDef.maxMotorForce = 100000;
 			  m_joint2 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
-		}
-		
-		{
+			}
+		///9.We make a prismatic joint between m_lift3 and m_bodyB3
+			{
 
 			   b2FixtureDef fixtureDef;
 			   fixtureDef.density = 1;
@@ -361,9 +360,9 @@ namespace cs296
 			  prismaticJointDef.enableMotor = true;
 			  prismaticJointDef.maxMotorForce = 100000;
 			  m_joint3 = (b2PrismaticJoint*)m_world->CreateJoint( &prismaticJointDef );
-		}
-		
-		{
+			}
+		///10.We make a revolute joint between gunanch and gunbase
+			{
 			  b2BodyDef bodyDef;
 			  bodyDef.type = b2_dynamicBody;
 			  b2FixtureDef fixtureDef;
@@ -393,16 +392,18 @@ namespace cs296
 			  revoluteJointDef.collideConnected = false;
 			  revoluteJointDef.localAnchorA.Set( 0,0);
 			  revoluteJointDef.localAnchorB.Set( -1, 2);
+			  ///Reference angle for this revolute joint is 0
 			  revoluteJointDef.referenceAngle = 0;
 			  revoluteJointDef.enableLimit = true;
+			  ///Lower limit for angle of rotation is 0 degree and highest angle is 20 degree
 			  revoluteJointDef.lowerAngle = 0 * DEGTORAD;
 			  revoluteJointDef.upperAngle =  20 * DEGTORAD;
 			  revoluteJointDef.enableMotor = true;
 			  revoluteJointDef.maxMotorTorque = 200000;
 			  m_base = (b2RevoluteJoint*)m_world->CreateJoint( &revoluteJointDef );
-		}
-		
-		{
+			}
+		///11.We make a revolute joint between gunanch and guntop
+			{
 			  b2BodyDef bodyDef;
 			  bodyDef.type = b2_dynamicBody;
 			  b2FixtureDef fixtureDef;
@@ -434,14 +435,14 @@ namespace cs296
 			  revoluteJointDef.enableMotor = true;
 			  revoluteJointDef.maxMotorTorque = 200000;
 			  m_top = (b2RevoluteJoint*)m_world->CreateJoint( &revoluteJointDef );
-		}
+			}
 		
 		
 		
 		
 	}
-    
-
+    ///This function governs the movement based on various key presses of keyboard
+	/// @param key This specifies the key pressed
     void dominos_t::keyboard(unsigned char key)
     {
         switch (key)
@@ -462,6 +463,7 @@ namespace cs296
 			break;			
 		case 'w':
 			m_joint_lift->SetMotorSpeed(2.0f);
+			
 			break;
 
 		case 's':
@@ -513,19 +515,20 @@ namespace cs296
 	
           
 		 case '2':
-			domin[0]->ApplyLinearImpulse( b2Vec2(-cos(20 * DEGTORAD)*500,-sin(20 * DEGTORAD)*500), domin[0]->GetWorldCenter(),true );	
+			
+			domin[0]->ApplyLinearImpulse( b2Vec2(-cos(18 * DEGTORAD)*500,-sin(20 * DEGTORAD)*500), domin[0]->GetWorldCenter(),true );	
 				break;
 		case '3':
-				domin[1]->ApplyLinearImpulse( b2Vec2(-cos(20 * DEGTORAD)*500,-sin(20 * DEGTORAD)*500), domin[1]->GetWorldCenter(),true );	
+				domin[1]->ApplyLinearImpulse( b2Vec2(-cos(16 * DEGTORAD)*500,-sin(16 * DEGTORAD)*500), domin[1]->GetWorldCenter(),true );	;		
 				break;
 				
 		case '4':
-				domin[2]->ApplyLinearImpulse( b2Vec2(-cos(20 * DEGTORAD)*500,-sin(20 * DEGTORAD)*500), domin[2]->GetWorldCenter(),true );	
+				domin[2]->ApplyLinearImpulse( b2Vec2(-cos(14 * DEGTORAD)*500,-sin(14 * DEGTORAD)*500), domin[2]->GetWorldCenter(),true );		
 				break;
 				
 		case '5':
-				domin[3]->ApplyLinearImpulse( b2Vec2(-cos(20 * DEGTORAD)*500,-sin(20 * DEGTORAD)*500), domin[3]->GetWorldCenter(),true );						
-				m_cone->ApplyLinearImpulse( b2Vec2(cos(20 * DEGTORAD)*500,sin(20 * DEGTORAD)*500), m_cone->GetWorldCenter(),true );						
+				domin[3]->ApplyLinearImpulse( b2Vec2(-cos(12 * DEGTORAD)*500,-sin(12 * DEGTORAD)*500), domin[3]->GetWorldCenter(),true );						
+				m_cone->ApplyLinearImpulse( b2Vec2(cos(12 * DEGTORAD)*500,sin(12 * DEGTORAD)*500), m_cone->GetWorldCenter(),true );						
 				break;
 		
 	          					
