@@ -13,9 +13,9 @@ Group 13:
 
 Project webpage link: http://www.cse.iitb.ac.in/~shivamg/project.html
 
-make dist: makes a distributable cs296_g13_project.tar.gz in the parent directory of cs296_g13_project
+make dist: makes a distributable cs296_g13_project.tar.gz in the parent directory of directory  g13_project
 make install: Installs the project to the given folder denoted by the variable INSTDIR
-If you want to install your project in the directory containing Makefile, set INSTDIR=. or INSTDIR=./
+If you want to install the project in the directory containing Makefile, set INSTDIR=. or INSTDIR=./
 
 The work we have submitted for this assignment is entirely our own and any resemblance to anything else is purely co-incidental.
 

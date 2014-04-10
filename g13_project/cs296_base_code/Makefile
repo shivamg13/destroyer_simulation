@@ -22,7 +22,7 @@ OBJDIR = $(PROJECT_ROOT)/myobjs
 BINDIR = $(PROJECT_ROOT)/mybins
 LIBDIR= $(PROJECT_ROOT)/mylibs
 DOCDIR = $(PROJECT_ROOT)/doc
-INSTDIR= .
+INSTDIR= ../../..
 #To install everything to the directory containing makefile set INSTDIR to . or ./
 # Library Paths
 BOX2D_ROOT=$(EXTERNAL_ROOT)
@@ -128,8 +128,8 @@ distclean: clean
 
 dist: distclean
 	@$(ECHO) "Making Distributable Version"
-	cd ../../../; \
-	tar -cvzf cs296_g13_project.tar.gz  ./cs296_g13_project
+	cd ../../; \
+	tar -cvzf cs296_g13_project.tar.gz  ./g13_project ./README
 	@$(ECHO) "Done"	
 
 install: setup exe report doc
